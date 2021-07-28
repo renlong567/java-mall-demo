@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.javademo.mbg.mapper.OauthRefreshTokensMapper">
+  <resultMap id="BaseResultMap" type="com.example.javademo.mbg.model.OauthRefreshTokens">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="access_token_id" jdbcType="VARCHAR" property="accessTokenId" />
+    <result column="revoked" jdbcType="BIT" property="revoked" />
+    <result column="expires_at" jdbcType="TIMESTAMP" property="expiresAt" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, access_token_id, revoked, expires_at
+  </sql>
+  <select id="selectByExample" parameterType="com.example.javademo.mbg.model.OauthRefreshTokensExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from oauth_refresh_tokens
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from oauth_refresh_tokens
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from oauth_refresh_tokens
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.example.javademo.mbg.model.OauthRefreshTokensExample">
+    delete from oauth_refresh_tokens
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.example.javademo.mbg.model.OauthRefreshTokens">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.String">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into oauth_refresh_tokens (access_token_id, revoked, expires_at
+      )
+    values (#{accessTokenId,jdbcType=VARCHAR}, #{revoked,jdbcType=BIT}, #{expiresAt,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.javademo.mbg.model.OauthRefreshTokens">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.String">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into oauth_refresh_tokens
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="accessTokenId != null">
+        access_token_id,
+      </if>
+      <if test="revoked != null">
+        revoked,
+      </if>
+      <if test="expiresAt != null">
+        expires_at,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="accessTokenId != null">
+        #{accessTokenId,jdbcType=VARCHAR},
+      </if>
+      <if test="revoked != null">
+        #{revoked,jdbcType=BIT},
+      </if>
+      <if test="expiresAt != null">
+        #{expiresAt,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.example.javademo.mbg.model.OauthRefreshTokensExample" resultType="java.lang.Long">
+    select count(*) from oauth_refresh_tokens
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update oauth_refresh_tokens
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.accessTokenId != null">
+        access_token_id = #{record.accessTokenId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.revoked != null">
+        revoked = #{record.revoked,jdbcType=BIT},
+      </if>
+      <if test="record.expiresAt != null">
+        expires_at = #{record.expiresAt,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update oauth_refresh_tokens
+    set id = #{record.id,jdbcType=VARCHAR},
+      access_token_id = #{record.accessTokenId,jdbcType=VARCHAR},
+      revoked = #{record.revoked,jdbcType=BIT},
+      expires_at = #{record.expiresAt,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.javademo.mbg.model.OauthRefreshTokens">
+    update oauth_refresh_tokens
+    <set>
+      <if test="accessTokenId != null">
+        access_token_id = #{accessTokenId,jdbcType=VARCHAR},
+      </if>
+      <if test="revoked != null">
+        revoked = #{revoked,jdbcType=BIT},
+      </if>
+      <if test="expiresAt != null">
+        expires_at = #{expiresAt,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.javademo.mbg.model.OauthRefreshTokens">
+    update oauth_refresh_tokens
+    set access_token_id = #{accessTokenId,jdbcType=VARCHAR},
+      revoked = #{revoked,jdbcType=BIT},
+      expires_at = #{expiresAt,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

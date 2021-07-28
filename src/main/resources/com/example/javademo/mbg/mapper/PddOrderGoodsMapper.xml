@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.javademo.mbg.mapper.PddOrderGoodsMapper">
+  <resultMap id="BaseResultMap" type="com.example.javademo.mbg.model.PddOrderGoods">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="pdd_order_id" jdbcType="INTEGER" property="pddOrderId" />
+    <result column="goods_name" jdbcType="VARCHAR" property="goodsName" />
+    <result column="goods_price" jdbcType="INTEGER" property="goodsPrice" />
+    <result column="num" jdbcType="SMALLINT" property="num" />
+    <result column="total_price" jdbcType="INTEGER" property="totalPrice" />
+    <result column="owner_article_no" jdbcType="VARCHAR" property="ownerArticleNo" />
+    <result column="barcode" jdbcType="VARCHAR" property="barcode" />
+    <result column="article_identifier" jdbcType="VARCHAR" property="articleIdentifier" />
+    <result column="packing_qty" jdbcType="TINYINT" property="packingQty" />
+    <result column="created_at" jdbcType="TIMESTAMP" property="createdAt" />
+    <result column="updated_at" jdbcType="TIMESTAMP" property="updatedAt" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, pdd_order_id, goods_name, goods_price, num, total_price, owner_article_no, barcode, 
+    article_identifier, packing_qty, created_at, updated_at
+  </sql>
+  <select id="selectByExample" parameterType="com.example.javademo.mbg.model.PddOrderGoodsExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from pdd_order_goods
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from pdd_order_goods
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from pdd_order_goods
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.example.javademo.mbg.model.PddOrderGoodsExample">
+    delete from pdd_order_goods
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.example.javademo.mbg.model.PddOrderGoods">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into pdd_order_goods (pdd_order_id, goods_name, goods_price, 
+      num, total_price, owner_article_no, 
+      barcode, article_identifier, packing_qty, 
+      created_at, updated_at)
+    values (#{pddOrderId,jdbcType=INTEGER}, #{goodsName,jdbcType=VARCHAR}, #{goodsPrice,jdbcType=INTEGER}, 
+      #{num,jdbcType=SMALLINT}, #{totalPrice,jdbcType=INTEGER}, #{ownerArticleNo,jdbcType=VARCHAR}, 
+      #{barcode,jdbcType=VARCHAR}, #{articleIdentifier,jdbcType=VARCHAR}, #{packingQty,jdbcType=TINYINT}, 
+      #{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.javademo.mbg.model.PddOrderGoods">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into pdd_order_goods
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pddOrderId != null">
+        pdd_order_id,
+      </if>
+      <if test="goodsName != null">
+        goods_name,
+      </if>
+      <if test="goodsPrice != null">
+        goods_price,
+      </if>
+      <if test="num != null">
+        num,
+      </if>
+      <if test="totalPrice != null">
+        total_price,
+      </if>
+      <if test="ownerArticleNo != null">
+        owner_article_no,
+      </if>
+      <if test="barcode != null">
+        barcode,
+      </if>
+      <if test="articleIdentifier != null">
+        article_identifier,
+      </if>
+      <if test="packingQty != null">
+        packing_qty,
+      </if>
+      <if test="createdAt != null">
+        created_at,
+      </if>
+      <if test="updatedAt != null">
+        updated_at,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pddOrderId != null">
+        #{pddOrderId,jdbcType=INTEGER},
+      </if>
+      <if test="goodsName != null">
+        #{goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsPrice != null">
+        #{goodsPrice,jdbcType=INTEGER},
+      </if>
+      <if test="num != null">
+        #{num,jdbcType=SMALLINT},
+      </if>
+      <if test="totalPrice != null">
+        #{totalPrice,jdbcType=INTEGER},
+      </if>
+      <if test="ownerArticleNo != null">
+        #{ownerArticleNo,jdbcType=VARCHAR},
+      </if>
+      <if test="barcode != null">
+        #{barcode,jdbcType=VARCHAR},
+      </if>
+      <if test="articleIdentifier != null">
+        #{articleIdentifier,jdbcType=VARCHAR},
+      </if>
+      <if test="packingQty != null">
+        #{packingQty,jdbcType=TINYINT},
+      </if>
+      <if test="createdAt != null">
+        #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedAt != null">
+        #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.example.javademo.mbg.model.PddOrderGoodsExample" resultType="java.lang.Long">
+    select count(*) from pdd_order_goods
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update pdd_order_goods
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.pddOrderId != null">
+        pdd_order_id = #{record.pddOrderId,jdbcType=INTEGER},
+      </if>
+      <if test="record.goodsName != null">
+        goods_name = #{record.goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.goodsPrice != null">
+        goods_price = #{record.goodsPrice,jdbcType=INTEGER},
+      </if>
+      <if test="record.num != null">
+        num = #{record.num,jdbcType=SMALLINT},
+      </if>
+      <if test="record.totalPrice != null">
+        total_price = #{record.totalPrice,jdbcType=INTEGER},
+      </if>
+      <if test="record.ownerArticleNo != null">
+        owner_article_no = #{record.ownerArticleNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.barcode != null">
+        barcode = #{record.barcode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.articleIdentifier != null">
+        article_identifier = #{record.articleIdentifier,jdbcType=VARCHAR},
+      </if>
+      <if test="record.packingQty != null">
+        packing_qty = #{record.packingQty,jdbcType=TINYINT},
+      </if>
+      <if test="record.createdAt != null">
+        created_at = #{record.createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updatedAt != null">
+        updated_at = #{record.updatedAt,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update pdd_order_goods
+    set id = #{record.id,jdbcType=INTEGER},
+      pdd_order_id = #{record.pddOrderId,jdbcType=INTEGER},
+      goods_name = #{record.goodsName,jdbcType=VARCHAR},
+      goods_price = #{record.goodsPrice,jdbcType=INTEGER},
+      num = #{record.num,jdbcType=SMALLINT},
+      total_price = #{record.totalPrice,jdbcType=INTEGER},
+      owner_article_no = #{record.ownerArticleNo,jdbcType=VARCHAR},
+      barcode = #{record.barcode,jdbcType=VARCHAR},
+      article_identifier = #{record.articleIdentifier,jdbcType=VARCHAR},
+      packing_qty = #{record.packingQty,jdbcType=TINYINT},
+      created_at = #{record.createdAt,jdbcType=TIMESTAMP},
+      updated_at = #{record.updatedAt,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.javademo.mbg.model.PddOrderGoods">
+    update pdd_order_goods
+    <set>
+      <if test="pddOrderId != null">
+        pdd_order_id = #{pddOrderId,jdbcType=INTEGER},
+      </if>
+      <if test="goodsName != null">
+        goods_name = #{goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsPrice != null">
+        goods_price = #{goodsPrice,jdbcType=INTEGER},
+      </if>
+      <if test="num != null">
+        num = #{num,jdbcType=SMALLINT},
+      </if>
+      <if test="totalPrice != null">
+        total_price = #{totalPrice,jdbcType=INTEGER},
+      </if>
+      <if test="ownerArticleNo != null">
+        owner_article_no = #{ownerArticleNo,jdbcType=VARCHAR},
+      </if>
+      <if test="barcode != null">
+        barcode = #{barcode,jdbcType=VARCHAR},
+      </if>
+      <if test="articleIdentifier != null">
+        article_identifier = #{articleIdentifier,jdbcType=VARCHAR},
+      </if>
+      <if test="packingQty != null">
+        packing_qty = #{packingQty,jdbcType=TINYINT},
+      </if>
+      <if test="createdAt != null">
+        created_at = #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedAt != null">
+        updated_at = #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.javademo.mbg.model.PddOrderGoods">
+    update pdd_order_goods
+    set pdd_order_id = #{pddOrderId,jdbcType=INTEGER},
+      goods_name = #{goodsName,jdbcType=VARCHAR},
+      goods_price = #{goodsPrice,jdbcType=INTEGER},
+      num = #{num,jdbcType=SMALLINT},
+      total_price = #{totalPrice,jdbcType=INTEGER},
+      owner_article_no = #{ownerArticleNo,jdbcType=VARCHAR},
+      barcode = #{barcode,jdbcType=VARCHAR},
+      article_identifier = #{articleIdentifier,jdbcType=VARCHAR},
+      packing_qty = #{packingQty,jdbcType=TINYINT},
+      created_at = #{createdAt,jdbcType=TIMESTAMP},
+      updated_at = #{updatedAt,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
