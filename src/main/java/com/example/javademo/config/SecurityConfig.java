@@ -95,11 +95,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         //获取登录用户信息
         return username -> {
             UmsAdmin admin = adminService.getAdminByUsername(username);
-            if (admin != null) {
-                List<UmsPermission> permissionList = adminService.getPermissionList(admin.getId());
-                return new AdminUserDetails(admin,permissionList);
+            if (admin == null) {
+                throw new UsernameNotFoundException("用户名或密码错误");
             }
-            throw new UsernameNotFoundException("用户名或密码错误");
+
+            return new AdminUserDetails(admin, adminService.getPermissionList(admin.getId()));
         };
     }
 

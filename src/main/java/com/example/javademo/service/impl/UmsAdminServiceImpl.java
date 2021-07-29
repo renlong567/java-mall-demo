@@ -3,15 +3,16 @@ package com.example.javademo.service.impl;
 import com.example.javademo.common.utils.JwtTokenUtil;
 import com.example.javademo.dao.UmsAdminRoleRelationDao;
 import com.example.javademo.mbg.mapper.UmsAdminMapper;
-import com.example.javademo.mbg.model.UmsAdmin;
-import com.example.javademo.mbg.model.UmsAdminExample;
-import com.example.javademo.mbg.model.UmsPermission;
+import com.example.javademo.mbg.mapper.UmsAdminRoleRelationMapper;
+import com.example.javademo.mbg.mapper.UmsPermissionMapper;
+import com.example.javademo.mbg.model.*;
 import com.example.javademo.service.UmsAdminService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
@@ -41,6 +42,10 @@ public class UmsAdminServiceImpl implements UmsAdminService {
     private String tokenHead;
     @Autowired
     private UmsAdminMapper adminMapper;
+    @Autowired
+    private UmsAdminRoleRelationMapper umsAdminRoleRelationMapper;
+    @Autowired
+    private UmsPermissionMapper umsPermissionMapper;
     @Autowired
     private UmsAdminRoleRelationDao adminRoleRelationDao;
 
@@ -77,7 +82,7 @@ public class UmsAdminServiceImpl implements UmsAdminService {
 
     @Override
     public String login(String username, String password) {
-        String token = null;
+        String token = "";
         try {
             UserDetails userDetails = userDetailsService.loadUserByUsername(username);
             if (!passwordEncoder.matches(password, userDetails.getPassword())) {
@@ -95,6 +100,18 @@ public class UmsAdminServiceImpl implements UmsAdminService {
 
     @Override
     public List<UmsPermission> getPermissionList(Long adminId) {
+        UmsAdminRoleRelationExample umsAdminRoleRelationExample = new UmsAdminRoleRelationExample();
+        umsAdminRoleRelationExample.createCriteria().andAdminIdEqualTo(adminId);
+        List<UmsAdminRoleRelation> umsAdminRoleRelationList = umsAdminRoleRelationMapper.selectByExample(umsAdminRoleRelationExample);
+
+        if (umsAdminRoleRelationList.isEmpty()) {
+            throw new AuthenticationCredentialsNotFoundException("未找到对应角色");
+        }
+
+        if (umsAdminRoleRelationList.get(0).getRoleId() == 5) {
+            return umsPermissionMapper.selectByExample(new UmsPermissionExample());
+        }
+
         return adminRoleRelationDao.getPermissionList(adminId);
     }
 }
