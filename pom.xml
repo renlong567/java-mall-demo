@@ -101,11 +101,11 @@
             <version>${mybatis-generator.version}</version>
         </dependency>
         <!-- MyBatis-->
-<!--        <dependency>-->
-<!--            <groupId>org.mybatis</groupId>-->
-<!--            <artifactId>mybatis</artifactId>-->
-<!--            <version>${mybatis.version}</version>-->
-<!--        </dependency>-->
+        <dependency>
+            <groupId>org.mybatis</groupId>
+            <artifactId>mybatis</artifactId>
+            <version>${mybatis.version}</version>
+        </dependency>
         <!--Mysql数据库驱动-->
         <dependency>
             <groupId>mysql</groupId>
