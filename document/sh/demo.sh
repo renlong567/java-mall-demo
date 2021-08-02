@@ -15,7 +15,7 @@ echo '----rm container----'
 docker rmi ${group_name}/${app_name}:${app_version}
 echo '----rm image----'
 # 打包编译docker镜像
-docker build -f /www/wwwroot/java.api/document/docker -t ${group_name}/${app_name}:${app_version}
+docker build -f ./Dockerfile -t ${group_name}/${app_name}:${app_version} .
 echo '----build image----'
 docker run -p 8088:8088 --name ${app_name} \
 -e 'spring.profiles.active'=${profile_active} \
