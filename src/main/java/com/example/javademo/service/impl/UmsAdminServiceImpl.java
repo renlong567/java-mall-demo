@@ -114,5 +114,15 @@ public class UmsAdminServiceImpl implements UmsAdminService {
 
         return adminRoleRelationDao.getPermissionList(adminId);
     }
+
+    @Override
+    public List<UmsRole> getRoleList(Long adminId) {
+        return adminRoleRelationDao.getRoleList(adminId);
+    }
+
+    @Override
+    public UmsAdmin getItem(Long id) {
+        return adminMapper.selectByPrimaryKey(id);
+    }
 }
 
