@@ -1,7 +1,7 @@
 package com.example.javademo.dao;
 
-import com.macro.mall.model.UmsMenu;
-import com.macro.mall.model.UmsResource;
+import com.example.javademo.mbg.model.UmsMenu;
+import com.example.javademo.mbg.model.UmsResource;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
