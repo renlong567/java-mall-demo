@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
@@ -52,7 +53,7 @@ public class UmsAdminController {
     @ApiOperation(value = "登录以后返回token")
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     @ResponseBody
-    public CommonResult login(@RequestBody UmsAdminLoginParam umsAdminLoginParam) {
+    public CommonResult<Map<String, String>> login(@RequestBody @Valid UmsAdminLoginParam umsAdminLoginParam) {
         String token = adminService.login(umsAdminLoginParam.getUsername(), umsAdminLoginParam.getPassword());
         if (token == null) {
             return CommonResult.validateFailed("用户名或密码错误");
@@ -74,7 +75,7 @@ public class UmsAdminController {
     @ApiOperation(value = "获取当前登录用户信息")
     @RequestMapping(value = "/info", method = RequestMethod.GET)
     @ResponseBody
-    public CommonResult getAdminInfo(Principal principal) {
+    public CommonResult<Map<String, Object>> getAdminInfo(Principal principal) {
         if (principal == null) {
             return CommonResult.unauthorized(null);
         }
@@ -95,7 +96,7 @@ public class UmsAdminController {
     @ApiOperation(value = "登出功能")
     @RequestMapping(value = "/logout", method = RequestMethod.POST)
     @ResponseBody
-    public CommonResult logout() {
+    public CommonResult<Boolean> logout() {
         return CommonResult.success(null);
     }
 }
